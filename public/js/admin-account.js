@@ -190,16 +190,33 @@ function deleteAccount(id, adminPass, errorBox) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log('am here change username');
-            console.log(passInfoJson);
-            document.getElementById('submitstatus').style.display = "flex";
-            document.getElementById('submitstatus').innerHTML = this.responseText;
+
+            let response = this.responseText;
+            let text_status = response.split('_');
+            console.log(text_status);
+            if (this.readyState == 4 && this.status == 200) {
 
 
+                // if it went well.
+                if (text_status[1] == "good") {
+                    setTimeout(() => {
+                        document.getElementById('personal-delete-account').reset();
+                        document.getElementById('submitstatus').style.display = "flex";
 
-        }
-    };
-    xmlhttp.open("get", "../../controller/changePass.php?deleteAcc=" + passInfoJson, true);
-    xmlhttp.send();
+                        document.getElementById('submitstatus').innerHTML = text_status[0];
+                    }, 3000);
+                    window.location.reload();
 
-}
+
+                } else {
+                    document.getElementById('delete-acc-err').innerHTML = text_status[0];
+                }
+
+
+            }
+        };
+        xmlhttp.open("post", "" + passInfoJson, true);
+        xmlhttp.setRequestHeader('Content-Type', 'application/json');
+        xmlhttp.send(passInfoJson);
+
+    }
