@@ -1,0 +1,228 @@
+:root {
+    --darkblue: #000957;
+    --blue: #344CB7;
+    --lightblue: #577BC1;
+    /* --morelightblue */
+    --lightblue2: #577ac128;
+    --lightgray: #e5e5e5;
+    --yellow: #EBE645;
+    --lightyellow: #344cb76b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.form-container {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: var(--darkblue);
+    padding-top: 150px;
+}
+
+.form-container .signin-box {
+    width: 470px;
+    height: fit-content;
+    background-color: white;
+    padding: 20px 20px;
+    border-radius: 5px;
+    box-shadow: 8px 8px 10px black;
+}
+
+.signinAs {
+    color: var(--blue);
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 25px;
+}
+
+
+/* login type section */
+
+.login-type {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.login-type select {
+    /* display: none; */
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    /* padding: 10px 5px; */
+    background-color: var(--lightgray);
+}
+
+.login-type span {
+    color: #344CB7;
+}
+
+.login-type div label {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--blue);
+}
+
+.login-type div label span {
+    width: 100%;
+    text-align: center;
+}
+
+.type-default {}
+
+.login-type img {
+    width: 150px;
+    height: auto;
+}
+
+
+/* input section */
+
+.input-section {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 40px;
+}
+
+.input-section label {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: 200;
+}
+
+.input-section img {
+    width: 30px;
+    height: 30px;
+}
+
+.input-section label .input-field {
+    height: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.input-field input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid var(--blue);
+}
+
+.input-section label span {
+    width: 100%;
+    color: #344cb7a1;
+}
+
+.show-password {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.show-password img {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.btn {
+    height: 50px;
+    width: 100%;
+    background-color: var(--darkblue);
+    color: var(--lightgray);
+    margin-top: 100px;
+    font-size: 18px;
+    border: none;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.btn.btn_save {
+    background-color: var(--darkblue);
+}
+
+.btn.btn_cancel {
+    background-color: red;
+}
+
+
+/* forgot password  */
+
+.signin-box.forgot-pass {
+    display: none;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.signin-box.forgot-pass input {
+    width: 100%;
+    margin-top: 20px;
+    height: 30px;
+}
+
+.signin-box.forgot-pass .btn {
+    margin-top: 10px;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+}
+
+.forgot-pass span {
+    text-decoration: underline;
+    color: var(--blue);
+    cursor: pointer;
+}
+
+.forgot-pass span:hover {
+    color: #577BC1;
+}
+
+.error_box {
+    margin-top: 30px;
+    color: red;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+/* alert boxes */
+
+.alert {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.alert.alert-success {
+    background-color: rgba(227, 253, 235, 1);
+    border-color: rgba(38, 179, 3, 1);
+    color: rgba(60, 118, 61, 1);
+}
+
+.alert.alert-danger {
+    background-color: rgba(248, 215, 218, 1);
+    border-color: rgba(220, 53, 69, 1);
+    color: rgba(114, 28, 36, 1);
+}

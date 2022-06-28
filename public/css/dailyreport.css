@@ -1,0 +1,97 @@
+:root {
+    --darkblue: #000957;
+    --blue: #344CB7;
+    --lightblue: #577BC1;
+    /* --morelightblue */
+    --lightblue2: #577ac128;
+    --lightgray: #e5e5e5;
+    --yellow: #EBE645;
+    --lightyellow: #344cb76b;
+}
+
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.chart_container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chart_header {
+    font-size: 30px;
+    text-decoration: underline;
+}
+
+.chart {
+    margin-top: 20px;
+    width: 100%;
+    border: 1px solid var(--blue);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.chart1 {
+    width: 100%;
+}
+
+.chart1 h2 {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.chart.firstChart .chart2 {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    color: #000957;
+    font-size: 20px;
+}
+
+.chart.secondChart {
+    display: flex;
+    flex-direction: column;
+}
+
+.select_container {
+    /* border: 1px solid black; */
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    padding: 10px 20px;
+}
+
+.select_container select {
+    width: 150px;
+    font-size: 25px;
+    background-color: var(--blue);
+    color: white;
+}
+
+.accounts-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+}
+
+.accounts-info h3 {
+    font-size: 23px;
+}
+
+.accounts-info p {
+    font-size: 18px;
+    color: #344CB7;
+}
+
+.stat {
+    width: 100%;
+    padding: 20px 0px 20px 80px;
+}

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="../css/student-search.css"> -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin-account.css">
+    <link rel="stylesheet" href="../css/admin-account-manage-account.css">
+    <script defer src="../js/script.js"></script>
+    <script defer src="../js/admin-script.js"></script>
+    <script defer src="../js/admin-account.js"></script>
+    <script defer src="../js/delete.js"></script>
+    <title>Accounts</title>
+</head>
+
+<body>
+
+    <%- include('../public/include/sidebar.ejs',{ page: page, auth: auth1 }) %>
+
+        <div class="content-body ">
+            <div class="burger-menu-container">
+
+                <img src="../images/burger-menu-white.png" alt="burger menu" id="burgerMenu">
+            </div>
+
+            <div class="accounts_section">
+                <div class="accounts_list_header">
+
+                    <div class="accounts-nav">
+                        <a href="../pages/admin-account-myaccount.php">My Account</a>
+                        <a href="#">Manage Accounts</a>
+                    </div>
+
+
+
+                    <div class="accounts-list " id="accounts-list">
+                        <div class="createAccountBtnContainer">
+                            <button id="createAccountBtn" onclick="openBox('personal-change-account','accounts-list')">Create Account</button>
+                        </div>
+                        <div class="personal_setting_box" id="personal_setting_box">
+                            <h4 class='personal_setting_header' id='personal_setting_header'>
+                                Accounts List
+
+                            </h4>
+                            <div class="searchbar ">
+                                <select name="searchby " id='searchby'>
+								   <option value='ID'>Id</option>
+								   <option value='firstName' selected>Name</option>
+							   </select>
+                                <input type="search " name="search_std " id="search_std " placeholder="search " onkeyup="getStd(this.value,'security','','',true) ">
+                            </div>
+                            <ul class="list-header ">
+                                <li></li>
+                                <li>Name <span><img src="../images/dec.png " alt="sort " id="name-sort-dec " onclick="Asc('firstName','security') " ><img src="../images/asc.png " alt="sort " id="name-sort-asc " onclick="Desc('firstName','security') "></span>
+                                </li>
+                                <li>ID<span><img src="../images/dec.png " alt="sort " id="id-sort-dec "
+											onclick="Asc('ID','security',true)"
+											><img src="../images/asc.png " alt="sort " id="id-sort-asc " 
+											onclick="Desc('ID','security',true)"
+											></span></li>
+                                <li>Username</li>
+                                <li>Last Login</li>
+                                <li></li>
+                            </ul>
+                            <div class="list-content-container ">
+                                <% accounts.forEach((account)=>{
+                                        
+                                    %>
+                                    <ul class="list-content">
+                                        <li><img src="../images/upload/<%= account.imgUrl  %>" alt="profile "></li>
+                                        <li class="user-name ">
+                                            <%= account.firstName+" "+account.lastName %>
+                                        </li>
+                                        <li class="user-id ">
+                                            <%= account.ID %>
+                                        </li>
+                                        <li class="user-user-name ">
+                                            <%= account.userName %>
+                                        </li>
+                                        <li class="user-last-login ">
+                                            <%= account.lastLogin %>
+                                        </li>
+                                        <li class="actions ">
+                                            <img src="../images/sidemore.png " alt="menu " id="three-dots-<%=( account.ID) %> " onmouseover="openmenu(this.id) ">
+                                            <div class="menu-choice " id="form-<%=( account.ID) %>" onmouseleave="closemenu(this.id) ">
+                                                <form class="choice1 " action=" " method="post">
+                                                    <input class="dot-menu-hidden" type="text" name="stdid" value=<%=( account.ID) %>>
+                                                    <input type="submit" name="view" value="View profile">
+                                                </form>
+                                                <form action="editProfile" method="post" class="choice1 ">
+                                                    <input class="dot-menu-hidden" type="text" name="stdid" value=<%=( account.ID) %> >
+                                                    <input type="submit" name="edit" value="Edit profile">
+                                                </form>
+                                                <form class="choice1 ">
+                                                    <input class="dot-menu-hidden" type="text" name="stdid" value=<%=( account.ID) %> >
+                                                    <input type="button" name="delete" id='delete-<%=( account.ID) %>' onclick="sendUserID(this.id,'to-be-delete-id','delete-account-container')" value="Delete Account">
+                                                </form>
+                                                <form class="choice1 ">
+                                                    <input class="dot-menu-hidden" type="text" name="stdid" value=<%=( account.ID) %> >
+                                                    <input type="button" name="changeUserName" id='userName-<%=( account.ID) %>' onclick="sendUserID(this.id,'userName-userID','personal-change-userName')" value="Change User Name">
+                                                </form>
+
+                                                <form class="choice1 ">
+                                                    <input class="dot-menu-hidden" type="text" name="stdid" value=<%=( account.ID) %> >
+                                                    <input type="button" name="changePassword" id='pass-<%=( account.ID) %>' onclick="sendUserID(this.id,'pass-userID','personal-change-password')" value="Change Password">
+                                                </form>
+
+
+
+                                            </div>
+
+                                        </li>
+                                    </ul>
+
+                                    <% })  %>
+                            </div>
+
+                        </div>
+                    </div>
+                    <form id="personal-change-password" class="personal-change-password" method="POST" action="changePass">
+                        <h4 class='personal_setting_header'>
+                            Change Password
+                        </h4>
+                        <div class="change-password-box">
+                            <div class="input-label">
+                                <label for="pass-userID">
+                                    ID
+                                </label>
+                                <input type="text" name="userID" id="UserID" value="" required readonly>
+                            </div>
+                            <div class="input-label">
+                                <label for="newPass">
+                                    New Password
+                                </label>
+                                <input type="password" name="newPass" id="UserNewPass" required>
+                            </div>
+                            <div class="input-label">
+                                <label for="confirmNewPass">
+                                    Confirm New Password
+                                </label>
+                                <input type="password" name="confirmNewPass" id="UserConfirmNewPass" required>
+                            </div>
+                            <div class="input-label">
+                                <label for="adminPass">
+                                    Admin Password
+                                </label>
+                                <input type="password" name="adminPass" id="UserAdminPass" required>
+                            </div>
+                            <div class="error-section" id="UserPassErrorSection">
+
+                            </div>
+                            <div class="change-btn-box">
+                                <button onclick="openBox('accounts-list','personal-change-password')" class="btn btn_cancel" id="cancelChangePassword">Cancel</button>
+                                <input type="submit" name="btnSubmit" class="btn btn_save" id="UserchangePass" value="Save" form="form3" required>
+                            </div>
+                        </div>
+
+                    </form>
+
+                    <form id="personal-change-userName" class="personal-change-userName" method="POST" action="../../controller/admin.php">
+                        <h4 class='personal_setting_header'>
+                            Change User name
+                        </h4>
+                        <div class="change-password-box">
+                            <div class="input-label">
+                                <label for="userName-userID">
+                                    ID
+                                </label>
+                                <input type="text" name="userID" id="userName-userID" value="" required readonly>
+                            </div>
+                            <div class="input-label">
+                                <label for="newUserName">
+                                    New user name
+                                </label>
+                                <input type="text" name="newUserName" id="newUserName" required>
+                            </div>
+                            <div class="input-label">
+                                <label for="admin-password">
+                                     Password
+                                </label>
+                                <input type="password" name="admin-password" id="admin-password" required>
+                            </div>
+
+                            <div class="error-section" id="userNameErrorSection">
+
+                            </div>
+                            <div class="change-btn-box">
+                                <button onclick="openBox('accounts-list','personal-change-userName')" class="btn btn_cancel" id="cancelChangeUserName">Cancel</button>
+                                <input type="submit" name="btnSubmit2" id="changeUserName" class="btn btn_save" value="Save">
+                            </div>
+
+
+
+                        </div>
+
+
+
+                    </form>
+
+                    <form id="personal-change-account" class="personal-change-account" method="POST" action="../../controller/admin.php">
+                        <h4 class='personal_setting_header'>
+                            Create Account
+                        </h4>
+                        <div class="change-password-box">
+
+                            <div class="input-label">
+                                <label for="id">
+                                    ID
+                                </label>
+                                <input type="text" name="id" id="create_id" required>
+                            </div>
+                            <div class="input-label">
+                                <label for="new-user-name">
+                                     User Name
+                                </label>
+                                <input type="text" name="new-user-name" id="new-user-name" required>
+                            </div>
+                            <div class="input-label">
+                                <label for="new-password">
+                                     Password
+                                </label>
+                                <input type="password" name="new-password" id="new-password" required>
+                            </div>
+                            <div class="input-label">
+                                <label for="re-new-password">
+                                    Retype Password
+                                </label>
+                                <input type="password" name="re-new-password" id="re-new-password" required>
+                            </div>
+                            <div class="error-section" id="create-acc-err">
+
+                            </div>
+                            <div class="change-btn-box">
+                                <button onclick="openBox('accounts-list','personal-change-account')" class="btn btn_cancel" id="createAccountCancel">Cancel</button>
+                                <input type="submit" name="createAccount" id="createAccount" value="Create Account" class="btn btn_save">
+                            </div>
+
+
+
+                        </div>
+
+
+
+                    </form>
+                    <div class="delete-account-container" id="delete-account-container">
+                        <form id="personal-delete-account1" class="personal-delete-account" method="post">
+                            <h4 class='personal_setting_header delete'>
+                                Delete Account
+                            </h4>
+                            <div class="change-password-box">
+
+                                <div class="delete-warning-box">
+                                    <p>Once you delete this account,there's no getting it back. Make sure you want to do this.</p>
+                                </div>
+                                <input type="text" value="" id="to-be-delete-id" name="to-be-delete-id" required readonly class="hidden">
+                                <div class="input-label">
+                                    <label for="delete-admin-password">
+                                     Admin Password
+                                </label>
+                                    <input type="password" name="delete-admin-password" id="delete-admin-password">
+                                </div>
+
+                                <div class="error-section" id="delete-acc-err">
+
+                                </div>
+                                <div class="change-btn-box">
+                                    <button onclick="openBox('accounts-list','delete-account-container')" class="btn btn_delete-cancel" id="deleteAccountCancel">Cancel</button>
+                                    <input type="submit" name="createAccount" id="deleteAccount" value="Delete Account" class="btn btn_cancel">
+                                </div>
+
+
+
+                            </div>
+
+
+
+                        </form>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+            <div id="submitstatus" class="submitStatus">
+
+            </div>
+            </main>
+
+
+
+</body>
+
+</html>

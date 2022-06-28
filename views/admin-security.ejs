@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin-student.css">
+    <script defer src="../js/admin-script.js"></script>
+    <script defer src="../js/script.js"></script>
+    <script defer src="../js/delete.js"></script>
+
+
+    <title>Admin Security</title>
+</head>
+
+<body>
+    <%- include('../public/include/sidebar.ejs',{ page: page, auth: auth1 }) %>
+
+        <div class="content-body ">
+            <div class="burger-menu-container">
+
+                <img src="../images/burger-menu-white.png" alt="burger menu" id="burgerMenu">
+            </div>
+
+            <div class="accounts_section">
+                <div class="accounts_list_header">
+                    <div class="accounts-info">
+                        <h3>Security Members List</h3>
+                        <p>View and manage registered Security members here.</p>
+                    </div>
+                    <a class="account-actions" href="addUser-security">
+                        <button class="add-account" id='create-account-btn'>Add Security Member</button>
+                    </a>
+                    <div class="create-account-container ">
+                        <div class="create-account ">
+
+                            <h2>Fill Security Memeber profile
+                                <img src="../images/cancel.png " id='close-btn' "></img>
+                            </h2>
+
+                            <div class="label-input ">
+
+                                <label for="firstName ">First Name</label>
+                                <input type="text " name="firstName " required>
+                            </div>
+                            <div class="label-input ">
+
+                                <label for="lastname "> Last Name</label>
+                                <input type="text " name="lastname " required>
+
+                            </div>
+
+                            <div class="label-input ">
+
+                                <label for="id ">Id</label>
+                                <input type="text " name="id " required>
+
+                            </div>
+
+                            <div class="label-input ">
+
+                                <label for="gender ">Gender</label>
+                                <select name="gender " id="std-gender " required>
+									<option value="male ">Male</option>
+									<option value="female ">Female</option>
+								</select>
+
+                            </div>
+                            <div class="label-input ">
+
+                                <label for="level ">Education Level</label>
+                                <select name="level " id="level ">
+									<option value="degree ">Degree</option>
+									<option value="masters ">Masters</option>
+									<option value="phd ">Phd</option>
+									<option value="0 ">None of the above</option>
+								</select>
+
+                            </div>
+							<div class="label-input ">
+
+                                <label for="level ">Image Url</label>
+                               <input type="file " name="imgUrl " >
+
+                            </div>
+
+
+                            <button type="submit ">Create</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="accounts-list ">
+                    <div class="searchbar ">
+                       <select name="searchby " id='searchby'>
+                           <option value='ID'>Id</option>
+                           <option value='firstName' selected>Name</option>
+                       </select>  
+                       <input type="search " name="search_std " id="search_std " placeholder="search " onkeyup="getStd(this.value, 'security') " ">
+                        </div>
+                        <ul class="list-header ">
+                            <li></li>
+                            <li>Name <span><img src="../images/dec.png " alt="sort " id="name-sort-dec " onclick="Asc('firstName','security') " ><img src="../images/asc.png " alt="sort " id="name-sort-asc " onclick="Desc('firstName','security') "></span>
+                            </li>
+                            <li>ID<span><img src="../images/dec.png " alt="sort " id="id-sort-dec "
+                                    onclick="Asc('ID','security')"
+                                    ><img src="../images/asc.png " alt="sort " id="id-sort-asc " 
+                                    onclick="Desc('ID','security')"
+                                    ></span></li>
+                            <li>Gender</li>
+                            <li>Education Level</li>
+                            <li></li>
+                        </ul>
+                        <div class="list-content-container ">
+                            <% std.forEach((student)=>{
+                          
+                        %>
+                                <ul class="list-content ">
+                                    <li><img src="../images/upload/<%=(student.imgUrl) %>" alt="profile "></li>
+                                    <li class="user-name ">
+                                        <%= student.firstName+" "+student.lastName %>
+                                    </li>
+                                    <li class="user-id ">
+                                        <%= student.ID %>
+                                    </li>
+                                    <li class="user-gender ">
+                                        <%= student.gender %>
+                                    </li>
+                                    <li class="user-level ">
+                                        <%= student.user_level %>
+                                    </li>
+                                    <li class="actions ">
+                                        <img src="../images/sidemore.png " alt="menu " id="three-dots-<%=( student.ID) %> " onmouseover="openmenu(this.id) ">
+                                        <div class="menu-choice " id="form-<%=( student.ID) %>" onmouseleave="closemenu(this.id) ">
+                                            <form class="choice1 " action="viewUser" method="post">
+                                                <input class="dot-menu-hidden" type="text" name="stdid" id="stdid" value=<%=(student.ID) %>>
+                                                <input type="submit" name="view" value="View profile">
+                                            </form>
+                                            <form action="editProfile" method="post" class="choice1 ">
+                                                <input class="dot-menu-hidden" type="text" name="stdid" value=<%=( student.ID) %> >
+                                                <input type="submit" name="edit" value="Edit profile">
+                                            </form>
+                                            <form class="choice1 ">
+                                                <input class="dot-menu-hidden" type="text" name="stdid" value=<%=( student.ID) %> >
+                                                <input type="button" name="delete" id="delete-<%= student.ID %>" onclick="sendUserID(this.id,'to-be-delete-id','delete-account-container')" value="Delete profile">
+                                            </form>
+
+
+
+                                        </div>
+
+                                    </li>
+                                </ul>
+
+                                <% })  %>
+                        </div>
+
+
+
+                        <!-- 
+                        <ul class="list-content ">
+                            <li><img src="../images/profile.png " alt="profile "></li>
+                            <li class="user-name ">Martha Mekow</li>
+                            <li class="user-id ">ETS 0923/33</li>
+                            <li class="user-gate ">Female</li>
+                            <li class="user-last-login ">Masters</li>
+                            <li class="actions " >
+								<img src="../images/sidemore.png " alt="menu " id="three-dots-menu2 " onmouseover="openmenu(this.id) " >
+								<div class="menu-choice " id="menu-choice2 "  onmouseleave="closemenu(this.id) ">
+									<div class="choice1 ">View profile</div>
+									<div class="choice2 ">Edit profile</div>
+								   </div>
+							</li>
+                        </ul> -->
+
+                    </div>
+
+                </div>
+
+                <%- include('../public/include/delete.ejs') %>
+
+                    </main>
+
+
+
+</body>
+
+</html>

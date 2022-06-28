@@ -1,0 +1,87 @@
+<div class="sidebar">
+
+
+    <div class="nav-logo">
+        <img src="../images/aastu.png" alt="aastu logo">
+        <span id="system-name">AASTU GMS</span>
+    </div>
+    <div class="user-profile">
+        <img src="../images/upload/<%= auth.imgUrl  %> " alt="aastu logo" width="50px" height="50px">
+        <span>
+            <%= auth.firstName+" "+auth.lastName %> 
+        </span>
+
+    </div>
+
+    <ul class="sidebar-nav">
+        <li class="side-links <% if(page == 'search'){%> <%= 'active' %><% } %> ">
+
+            <a href="admin-search"> <img src="../images/search-white.png" alt="search icon">
+            </a>
+            <a href="admin-search" class="sidenav-link">Search</a>
+        </li>
+        <% if(isAdmin){ %>
+            <li class="side-links  <% if(page=='student' ){%>
+                <%= 'active' %>" <% } %>>
+                <a href="admin-student"> <img src="../images/student-white.png" alt="search icon">
+                </a>
+                <a href="admin-student" class="sidenav-link">Student</a>
+            </li>
+
+            <li class="side-links<% if(page=='staff' ){%>
+                <%= 'active' %>" <% } %>>
+                <a href="admin-staff"> <img src="../images/teacher-white.png" alt="search icon">
+                </a>
+                <a href="admin-staff" class="sidenav-link">Staff</a>
+            </li>
+            <li class="side-links <% if(page=='security' ){%>
+                <%= 'active' %>" <% } %>>
+                <a href="admin-security"> <img src="../images/securityWhite.png" alt="search icon">
+                </a>
+                <a href="admin-security" class="sidenav-link">Security</a>
+            </li>
+            <li class="side-links <% if(page=='employee' ){%>
+                <%= 'active' %>" <% } %>>
+                <a href="admin-other-employee"> <img src="../images/company.png" alt="search icon">
+                </a>
+                <a href="admin-other-employee" class="sidenav-link">Other Employee</a>
+            </li>
+
+            <li class="side-links <% if(page=='account' ){%>
+                <%= 'active' %>" <% } %>>
+                <a href="manageAccount"> <img src="../images/account.png" alt="search icon" width="50px" height="50px">
+                </a>
+                <a href="manageAccount" class="sidenav-link">Manage Account</a>
+            </li>
+            <% } %>
+                <li class="side-links  <% if(page=='report' ){%>
+                    <%= 'active' %>" <% } %>>
+                    <a href="admin-daily-report"> <img src="../images/report-white.png" alt="search icon">
+                    </a>
+                    <a href="admin-daily-report" class="sidenav-link">Daily Report</a>
+                </li>
+
+                <li>
+                    <a id="logout-btn"> <img src="../images/logout-white.png" alt="search icon" width="50px" height="50px">
+                    </a>
+                    <form action="logout" method="post" class="sidenav-link">
+                        <input type="submit" name="submit" id="logout" value="Log out">
+
+                    </form>
+                </li>
+
+    </ul>
+</div>
+<main class="header_body">
+    <div class="header">
+        <img src="../images/upload/<%= auth.imgUrl  %> " alt="avatar">
+        <div class="status">
+            <span> <%= auth.firstName+" "+auth.lastName %> </span>
+            <small><%  if(isAdmin){%>
+                <%= "Admin"
+             %>
+                    <% } %>
+            </small>
+
+        </div>
+    </div>

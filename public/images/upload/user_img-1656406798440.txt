@@ -1,0 +1,23 @@
+SELECT userdevicelog.ID,Count(*) as numofEntry FROM userdevicelog WHERE exitDate < '2021:4:10 0:0:0' GROUP BY ID
+
+SELECT ID,Count(*) as numofEntry FROM userdevicelog WHERE exitDate < '2021:4:10 0:0:0' GROUP BY ID
+
+
+
+SELECT
+u.ID ID,
+u.firstName firstName,
+u.lastName lastName,
+ul.numofEntry EntryCount
+FROM
+user u
+INNER JOIN userlog ul
+ON u.ID = ul.ID
+
+
+Create View userlog
+As 
+SELECT 
+userdevicelog.ID ,Count(*) as numofEntry 
+FROM
+userdevicelog WHERE exitDate < '2021:4:10 0:0:0' GROUP BY ID

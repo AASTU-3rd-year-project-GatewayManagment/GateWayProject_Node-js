@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin-student.css">
+    <link rel="stylesheet" href="../css/view-profile.css">
+    <!-- <link rel="stylesheet" href="../css/student-search.css"> -->
+    <script defer src="../js/admin-script.js"></script>
+    <script defer src="../js/script.js"></script>
+
+    <title></title>
+</head>
+
+<body>
+
+    <%- include('../public/include/sidebar.ejs',{ page: page, auth: auth1 }) %>
+
+
+        <div class="content-body ">
+            <div class="burger-menu-container">
+
+                <img src="../images/burger-menu-white.png" alt="burger menu" id="burgerMenu">
+            </div>
+            <div class="view-profile-header">
+                <h2>User Information</h2>
+                <div class="small-nav">
+                    <a href="admin-<%= page %> ">
+                        <%= page %>
+                    </a> >
+                    <a href="#">
+                          New User
+                        </a>
+                </div>
+            </div>
+            <div class="edit-profile-btn-container">
+                <button id="open-btn">Import Csv</button>
+            </div>
+            <!-- import box pop up -->
+            <div class="box-container import-box-container" id="import-box-container">
+                <form class="import-box" action="../../controller/import-export.php" method="post" enctype="multipart/form-data">
+                    <span class="import-box-heading">Import file</span>
+                    <span class="import-box-allowed">Allowed types: csv</span>
+                    <input type="file" name="import-file" id="import-file">
+                    <div class="btn-box">
+
+                        <input type="submit" id='import-btn-sumbit' name="submit" class="btn btn_save">
+                        <button class="btn btn_cancel" id="close-import-box">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            <form enctype="multipart/form-data" class="add-std-form" id='add-std-form' action="saveUser" method="post">
+                <div class="add-profile-user-profile">
+
+                    <div class="label-input">
+                        <label for="user-id">Id <span>*</span></label>
+                        <input type="text" name="user_id" placeholder="ID" required>
+                    </div>
+
+                    <div class="label-input">
+                        <label for="user-firstName">First Name <span>*</span></label>
+                        <input type="text" name="user_firstName" placeholder="First Name" required>
+                    </div>
+                    <div class="label-input">
+                        <label for="user-lastName">Last Name <span>*</span></label>
+                        <input type="text" name="user_lastName" placeholder="Last Name" required>
+                    </div>
+
+
+
+                    <div class="<%=  " hidden " %>" class="label-input">
+                        <label for="user-type">User type</label>
+                        <select name="user_type" id="user-type" required>
+                                <option value="">None</option>
+						   <option value="student" <% if(page == "student" ){ %> <%= "selected"; %> <% } %>>Student</option>
+						   <option value="staff"   <% if(page == "staff"   ){ %>  <%= "selected"; %> <% } %>>Staff</option>
+						   <option value="security"<% if(page == "security"){ %>  <%= "selected"; %> <% } %>>Security</option>
+						   <option value="other"   <% if(page=="employee"  ){ %>   <%= "selected"; %> <% } %>>other</option>
+					   </select>
+                    </div>
+                    <div class="<% if(page == 'employee' || page ==  'security'){ %>  <%='hidden'%> <% }else{ %>
+                        <%='label-input'%>  <%}%>" class="label-input">
+                        <label for="user-level">Education Level</label>
+                        <select name="user_level" id="user-level" required>
+
+                           <option value="">None</option>
+						   <option value="degree">Degree</option>
+						   <option value="masters">Masters</option>
+						   <option value="phd">Phd</option>
+						   <option value="other" 
+                           <% if(page=="employee" || page == "security"){ %>
+                            <%= "selected"%> 
+                            <%}%>>other</option>
+					   </select>
+                    </div>
+                    <div class="label-input">
+                        <label for="user-gender">Gender <span>*</span></label>
+                        <select name="user_gender" id="user-gender" required>
+                                <option value="">None</option>
+							<option value="male">Male</option>
+							<option value="female">Female</option>
+						</select>
+                    </div>
+
+
+                    <div class="label-input">
+                        <label for="user-img">Image Url</label>
+                        <input type="file" id='user-img' name="user_img">
+                    </div>
+                    <div class="">
+                        <%  if(message){ %>
+                            <%- message %>
+                                <% } %>
+                    </div>
+
+
+                </div>
+                <div class="label-input submitContainer">
+                    <input type="submit" name="submit" value="Submit" class="btn btn_save">
+                    <input type="button" name="cancel" value="Cancel" class="btn btn_cancel">
+                </div>
+
+            </form>
+
+        </div>
+        <div id="submitstatus">
+
+        </div>
+        </main>
+
+
+
+</body>
+
+</html>

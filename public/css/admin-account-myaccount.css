@@ -1,0 +1,242 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style-type: none;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+.accounts_list_header {
+    margin: 0px auto
+}
+
+.accounts-nav {
+    width: 100%;
+    height: 40px;
+    background-color: var(--yellow);
+    display: flex;
+    align-items: center;
+    /* padding-left: 30px; */
+}
+
+.accounts-nav a {
+    padding: 0px 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--darkblue);
+    transition: all 0.4s;
+}
+
+.accounts-nav a:hover {
+    background-color: rgb(185, 185, 71);
+    padding-left: 40px;
+    color: white;
+}
+
+.personal_setting_box {
+    /* border: 1px solid black; */
+    /* display: flex; */
+    width: 80%;
+    margin: 20px auto 0px auto;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.personal_setting_box .personal_setting_header {
+    width: 100%;
+    /* border: 1px solid yellow; */
+    letter-spacing: 0.2px;
+    font-size: 18px;
+}
+
+.personal_setting_box .personal_setting_content {
+    /* border: 1px solid black; */
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+    width: 100%;
+    background-color: white;
+    border-radius: 3px;
+    border: 1px solid black;
+}
+
+.personal_setting_content .personal_setting_img_and_change {
+    flex-basis: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    /* border: 1px solid black; */
+}
+
+.personal_setting_img_and_change .personal_setting_btn_box {}
+
+.personal_setting_img_and_change img {
+    height: 340px;
+    width: 340px;
+    border-radius: 50%;
+}
+
+.personal_setting_img_and_change .personal_setting_btn_box #changeProfileBtn {
+    padding: 7px 20px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px black;
+    background-color: var(--lightblue);
+    color: white;
+    font-size: 15px;
+    /* transition: all 0.3s; */
+}
+
+.personal_setting_values {
+    flex-basis: 60%;
+    border-left: 1px solid rgba(0, 0, 0, 0.24);
+    padding: 20px 40px;
+}
+
+.input-label {
+    width: 100%;
+    /* border: 2px solid black; */
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.input-label input,
+label {
+    width: 100%;
+}
+
+.input-label label {
+    color: rgba(0, 0, 0, 0.651);
+}
+
+.input-label input {
+    background-color: rgba(0, 0, 255, 0.075);
+    border: 1px solid black;
+    outline: none;
+    margin-top: 10px;
+    height: 40px;
+    font-size: 18px;
+    padding-left: 10px;
+}
+
+.personal_setting_navs {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+    padding: 15px 0px;
+    border-top: 1px solid rgba(0, 0, 0, 0.24);
+}
+
+.personal_setting_navs button {
+    border: none;
+    background-color: transparent;
+    padding-left: 15px;
+    color: rgb(48, 48, 236);
+    font-size: 16px;
+}
+
+.personal_setting_box button:nth-child(2) {
+    /* padding-left: 10px; */
+    border-left: 1px solid black;
+}
+
+.personal_setting_navs button:hover {
+    color: blue;
+}
+
+
+/* change password box */
+
+.personal-change-password,
+.personal-change-email {
+    /* border: 1px solid black; */
+    background-color: white;
+    width: 70%;
+    margin: 40px auto 0px auto;
+    padding: 20px 40px;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    border: 1px solid black;
+    display: none;
+}
+
+.personal_setting_header {
+    width: 100%;
+    /* border: 1px solid yellow; */
+    letter-spacing: 0.2px;
+    font-size: 18px
+}
+
+.error-section {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    color: red;
+}
+
+.change-btn-box {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.change-btn-box input {
+    padding: 7px 20px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px black;
+    background-color: var(--lightblue);
+    color: white;
+    font-size: 15px;
+    transition: all 0.3s;
+}
+
+.change-btn-box input:hover {
+    filter: brightness(1.1);
+}
+
+#submitstatus {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 200px;
+    width: 500px;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    backdrop-filter: blur(2px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.good,
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.good {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 128, 0, 0.352);
+    color: white;
+    display: flex;
+}
+
+.error {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 0, 0, 0.352);
+    color: red;
+}
