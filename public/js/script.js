@@ -133,7 +133,6 @@ if (document.getElementById('logout-btn')) {
 if (document.getElementById('import-btn-sumbit')) {
     document.getElementById('import-btn-sumbit').addEventListener('click', function(e) {
         e.preventDefault();
-        closer('import-box-container');
         sendFile();
     })
 }
@@ -360,16 +359,35 @@ function sendFile() {
     const formData = new FormData();
     const inpfile = document.getElementById('import-file')
 
-    for (const file of inpfile.files) {
-        formData.append('myFiles[]', file)
-    }
+
+    formData.append('myFile', inpfile.files[0])
+
     xmlhttp.onreadystatechange = function() {
+        let response = this.responseText;
+        let text_status = response.split('_');
+        console.log(text_status);
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById('submitstatus').style.display = "flex";
-            document.getElementById('submitstatus').innerHTML = this.responseText;
+
+
+            // if it went well.
+            if (text_status[1] == "good") {
+                setTimeout(() => {
+                    closer('import-box-container');
+                    document.getElementById('submitstatus').style.display = "flex";
+                    document.getElementById('submitstatus').innerHTML = text_status[0];
+                }, 3000);
+                window.location.reload();
+
+
+            } else {
+                document.getElementById('import-box').reset();
+                document.getElementById('error-box-import').innerHTML = text_status[0];
+            }
+
         }
     };
-    xmlhttp.open("post", "../../controller/import-export.php");
+    xmlhttp.open("post", "importCsv");
+    // xmlhttp.setRequestHeader('Content-Type', 'application/json');
     xmlhttp.send(formData);
 
 }

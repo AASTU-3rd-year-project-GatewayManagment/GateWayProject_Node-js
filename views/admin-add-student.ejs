@@ -41,10 +41,14 @@
             </div>
             <!-- import box pop up -->
             <div class="box-container import-box-container" id="import-box-container">
-                <form class="import-box" action="../../controller/import-export.php" method="post" enctype="multipart/form-data">
+                <form class="import-box" id="import-box" action="importCsv" method="post" enctype="multipart/form-data">
                     <span class="import-box-heading">Import file</span>
-                    <span class="import-box-allowed">Allowed types: csv</span>
+                    <span class="import-box-allowed">Allowed types: xlsx</span>
                     <input type="file" name="import-file" id="import-file">
+
+                    <div id="error-box-import">
+
+                    </div>
                     <div class="btn-box">
 
                         <input type="submit" id='import-btn-sumbit' name="submit" class="btn btn_save">

@@ -215,8 +215,9 @@ function deleteAccount(id, adminPass, errorBox) {
 
             }
         };
-        xmlhttp.open("post", "" + passInfoJson, true);
-        xmlhttp.setRequestHeader('Content-Type', 'application/json');
-        xmlhttp.send(passInfoJson);
-
     }
+    xmlhttp.open("post", "deleteUserAccount", true);
+    xmlhttp.setRequestHeader('Content-Type', 'application/json');
+    xmlhttp.send(passInfoJson);
+
+}

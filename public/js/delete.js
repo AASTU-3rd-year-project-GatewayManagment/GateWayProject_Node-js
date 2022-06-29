@@ -9,17 +9,17 @@ function sendUserID(id, input, open) {
 
 }
 // delete form
-if (document.getElementById('personal-delete-account1')) {
-    document.getElementById('personal-delete-account1').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const form = new FormData(this);
-        // construct json
-        let formJson = {};
-        form.forEach((value, key) => {
-            formJson[key] = value;
-        });
+if (document.getElementById('personal-delete-account')) {
+    document.getElementById('personal-delete-account').addEventListener('submit', function(e) {
+        // e.preventDefault();
+        // const form = new FormData(this);
+        // // construct json
+        // let formJson = {};
+        // form.forEach((value, key) => {
+        //     formJson[key] = value;
+        // });
 
-        sendDeleteForm(formJson);
+        // sendDeleteForm(formJson);
     })
 
 }
