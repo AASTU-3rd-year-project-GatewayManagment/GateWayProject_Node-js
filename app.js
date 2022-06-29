@@ -7,7 +7,9 @@ const sessions = require('express-session');
 const multer = require('multer');
 const path = require('path');
 const bcrypt = require('bcrypt');
-
+const formidable = require('formidable');
+const fs = require('fs');
+const xlsx = require('xlsx')
 
 
 let storage = multer.diskStorage({
@@ -24,6 +26,7 @@ var upload = multer({ storage: storage })
 const con = require('./model/db_Connection');
 let session = require('express-session');
 const { query } = require('express');
+const e = require('express');
 
 const app = express();
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -74,11 +77,29 @@ app.get('/', (req, res) => {
 app.post('/signin', (req, res) => {
     if (req.body) {
         let query = `SELECT * FROM ${req.body.logintype} where userName ='${req.body.username}' and password = '${req.body.password}'`;
-
         console.log(query);
+        // bcrypt.genSalt(10, (err, salt) => {
+        //     bcrypt.hash(req.body.password, salt, function(err, hash) {
+        //         // store hash in the database
+        //         query = `update admin set password = ${hash} where userName = ${req.body.username}`;
+        //     });
+        // })
+
+        // con.query(query, (err, result) => {
+        //     if (err) throw err;
+        //     res.send("hello");
+        //     return
+        // })
+
         con.query(query, (err, result) => {
             if (err) throw err;
             if (result.length > 0) {
+                // console.log(result[0].password);
+
+
+                // bcrypt.compare(req.body.password, result[0].password, function(err, result) {
+                //     if (result) {
+                // password is valid
                 session = req.session;
                 session.userID = result[0].ID;
                 if (req.body.logintype == 'admin') {
@@ -88,11 +109,17 @@ app.post('/signin', (req, res) => {
 
                 }
                 res.redirect('admin-search');
-
+                //     } else {
+                //         res.render('index', { error: 'Username or Password Incorrect' })
+                //     }
+                // });
 
             } else {
                 res.render('index', { error: 'Username or Password Incorrect' })
             }
+
+
+
         })
 
     }
@@ -112,7 +139,7 @@ app.get('/admin-search', (req, res) => {
         });
 
     } else {
-        res.send("404.File does not exist");
+        res.send("Session Unsset");
     }
 });
 
@@ -143,7 +170,7 @@ app.get('/admin-:userType', (req, res) => {
 
 
     } else {
-        res.send("404.File does not exist");
+        res.send("session Unset or or.File does not exist");
     }
 });
 
@@ -169,7 +196,7 @@ app.post('/deleteAccount', (req, res) => {
 
 
     } else {
-        res.send("404.File does not exist");
+        res.send("session Unset or or.File does not exist");
     }
 })
 
@@ -693,7 +720,7 @@ app.get('/addUser-:page', (req, res) => {
         });
 
     } else {
-        res.send("404.File does not exist");
+        res.send("session Unset or or.File does not exist");
     }
 
 })
@@ -841,7 +868,7 @@ app.get('/manageAccount', (req, res) => {
 
 
     } else {
-        res.send("404.File does not exist");
+        res.send("session Unset or or.File does not exist");
     }
 })
 app.post('/createAccount', urlencodedParser, [
@@ -916,13 +943,153 @@ app.post('/createAccount', urlencodedParser, [
                 })
 
             } else {
-                // res.status(404).send("page doesnt exist,no session");
+                // res.status(session Unset or or).send("page doesnt exist,no session");
             }
         })
     }
 
 });
-app.post('/deleteUserAccount', (req, res) => {
-    console.log(req.body);
-    res.send(req.body);
+app.post('/deleteUserAccount', urlencodedParser, [
+    check(['id', 'adminP'], 'Enter you password.')
+    .trim()
+    .isLength({ min: 1 })
+], (req, res, next) => {
+    let session = req.session;
+    let message = '';
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.log("on errors")
+        console.log(errors);
+        let error = errors.array();
+        message = `<div class='alert alert-danger'
+        role='alert'> ${error[0].msg} </div>_bad`;
+        res.send(message);
+    }
+    if (session.userID && session.isAdmin) {
+        let query = `SELECT * FROM admin where ID = '${req.session.userID}' and password = '${req.body.adminP}'`;
+        console.log("std" + query);
+
+        con.query(query, (err, result) => {
+            if (err) throw err;
+            if (result.length > 0) {
+                query = `DELETE  FROM employee where ID='${req.body.id}'`;
+                console.log(query);
+                con.query(query, (err, result) => {
+                    if (err) throw err;
+                    message = `	<div class='good' id='show-submit-status'>
+								
+                    <p>Account deleted successfully.</p>
+
+                    </div>_good`;
+                    res.send(message);
+
+                })
+
+            } else {
+                message = "<div class='alert alert-danger' role='alert'>Password incorrect.</div>_bad";
+                res.send(message);
+            }
+        });
+
+
+
+    } else {
+        res.send("session Unset or or.File does not exist");
+    }
+})
+app.post('/importCsv', (req, res) => {
+
+    let form = new formidable.IncomingForm();
+    form.parse(req, function(err, fields, file) {
+        let filepath = file.myFile.filepath;
+
+        // check extention
+        let ext = path.extname(file.myFile.originalFilename);
+        console.log(ext);
+        let allowedExt = ['.xlsx'];
+        console.log("CHECK THEM: ", ext !== '.xlsx');
+        if (allowedExt.indexOf(ext) == -1) {
+            let msg = `<div class ='alert alert-danger'
+            role = 'alert'> Only xlsx format is allowed.</div>_bad`;
+            res.send(msg);
+            res.end();
+            return
+        }
+        var workbook = xlsx.readFile(filepath);
+        var sheet_name_list = workbook.SheetNames;
+        // change the read data to json format
+        var xlData = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+
+        console.log(xlData);
+
+        // construct id array and check for dups
+        let idArray = xlData.map((value) => value.id);
+
+        let dups = idArray.filter((item, index) => idArray.indexOf(item) !== index);
+        let message = "";
+        let count = 0;
+        let end = dups.length - 1;
+        if (dups.length > 0) {
+            dups.forEach(val => {
+                if (end == 1 || count == end) {
+                    message += val;
+                } else {
+
+                    message += val + ','
+                }
+                count++;
+            });
+            let error = `<div class ='alert alert-danger'
+            role = 'alert'>Duplicate entries: ${message} </div>_bad`;
+            res.send(error);
+        } else {
+            // check id array in db
+
+            let query = "SELECT ID From user";
+            con.query(query, (err, result) => {
+                if (err) throw err;
+
+                result.forEach((row) => {
+                    if (idArray.indexOf(row.ID) !== -1) {
+                        message += row.ID + ",";
+                    }
+                })
+                if (message !== '') {
+                    let error = `<div class ='alert alert-danger'
+                    role = 'alert'>Users Already Registered: ${message} </div>_bad`;
+                    res.send(error);
+                } else {
+                    let str = '';
+                    let count = 0;
+                    xlData.forEach((row) => {
+
+                        let line = `('${row.id}','${row.firstName}','${row.Lastname}','${row.gender}','${row.level}','${row.type}','${row.imgUrl}','${row.barCode}'),`;
+                        if (count == xlData.length - 1) {
+                            line = `('${row.id}','${row.firstName}','${row.Lastname}','${row.gender}','${row.level}','${row.type}','${row.imgUrl}','${row.barCode}')`;
+                        }
+                        count++;
+                        str += line;
+                        line = "";
+                    })
+
+                    let query = `INSERT INTO user Values${str}`;
+                    con.query(query, (err, result) => {
+                        if (err) throw err;
+                        message = `<div class='good' id='show-submit-status'>
+					
+                        <p>User registered successfully</p>
+    
+                        </div>_good`;
+                        res.send(message);
+                        return
+                    })
+                }
+
+            })
+
+        }
+
+
+
+    })
 })
